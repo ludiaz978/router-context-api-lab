@@ -1,34 +1,44 @@
-import axios from 'axios'; //for running with the entire app
-// const axios = require("axios") //for running as isolated file for testing
+import axios from 'axios';
 
-//sample API query path: http://www.omdbapi.com/?s=Batman&apikey=[yourkey]
 
-//set up BASE_URL and API_KEY variables here
-const BASE_URL = "http://www.omdbapi.com/?"
+const API_KEY = process.env.OMDB_API_KEY;
 
+const BASE_URL = "http://www.omdbapi.com/";
 
 
 const fetchMovies = async (searchTerm) => {
   try {
-    //your code here
+    const response = await axios.get(BASE_URL, {
+      params: {
+        apikey: API_KEY,
+        s: searchTerm, 
+      },
+    });
 
+    
+    return response.data;
   } catch (error) {
-      console.error("Error fetching movies:", error);
-      throw error;
+    console.error("Error fetching movies:", error);
+    throw error;
   }
 };
 
+
 const fetchMovieById = async (id) => {
   try {
-    //your code here
-    
+    const response = await axios.get(BASE_URL, {
+      params: {
+        apikey: API_KEY,
+        i: id, // Use the provided IMDb ID
+      },
+    });
+
+   
+    return response.data;
   } catch (error) {
     console.error("Error fetching movie:", error);
     throw error;
   }
 }
-
-// fetchMovies("Bathman");
-// fetchMovieById("tt3896198")
 
 export { fetchMovies, fetchMovieById };
